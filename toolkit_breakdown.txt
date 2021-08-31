@@ -1,0 +1,42 @@
+The code is organized as follows:
+• constructors: contains two classes
+  o	EventGraphConstructor.py (invoked by main.py) for constructing the event graph
+  o	HighLevelEventConstructor.py (invoked by main.py) for constructing the high level events
+• labelmakers: contains three labelmakers to get the right labels for nodes, relationships, etc. in the graphviz subgraphs, depending on the dataset used.
+  o	BPIC2014LabelMaker.py
+  o	BPIC2017LabelMaker.py
+  o	GeneralLabelMaker.py
+• output:
+  o	measurements: here the pattern measurements (from PaternMeasurer.py) are stored in csv format.
+  o	subgraphs: here all sugraphs (from SubgraphVisualizer.py) are saved into two different sub-folders.
+     from_cases: subgraphs created from input in the form of a list of case_ids.
+     task_instances: subgraphs created based on selected pattern type + instance number.
+• performance: here the recorded performance (by PerformanceRecorder.py) is stored in csv-format.
+• preprocessors: contains preprocessors for preprocessing BPIC2017 data and BPIC2014 data and a general preprocessor.
+• raw_data: data used as input for the selected preprocessor, currently contains the BPIC2017 and BPIC2014 data.
+• vis_reference: contains dictionaries for BPIC2017 used for printing abbreviated activity names as node labels.
+• graph_confs.py: used to specify all graph settings (password, labels for DF relationships etc)
+• GraphConfigurator.py (invoked by main.py): configures the graph settings using graph_confs.py based on the graph name specified.
+• GraphExplorer.py (invoked by main.py): used to explore the graph using the command line. The graph can be explored for process executions (based on case ids) and for task instances (based on a pattern type and instance number). Once cases or a task instance is selected, SubgraphVisualizer.py is invoked to visualize the subgraph in pdf. It is then automatically saved to output.subgraphs.from_cases or output.subgraphs.task_instances.
+• LabelMakerSelector.py (invoked by SubgraphVisualizer.py): selects a labelmaker from the labelmakers-directory.
+• main.py: The main script, see explanation below.
+• PatternMeasurer.py (invoked by main.py): Measures various statistics of all task execution patterns.
+• PerformanceRecorder.py (invoked by EventGraphConstructor.py and HighLevelEventConstructor.py): records time performance and saves this in csv-format in the performance-folder.
+• PreprocessSelector.py (invoked by main.py): Selects a preprocessor from the preprocessors-folder.
+• SubgraphVisualizer.py (invoked by GraphExplorer.py): Visualizes a subgraph from case id input or from a specific task pattern instance and prints these to pdf in output.subgraphs.from_cases or output.subgraphs.task_instances.
+
+main.py
+This runs everything.
+It start with a list of graph names, each name corresponds to a graphDB in Neo4j. Always make sure to assign the graph name of the graph you are running to the variable graph.
+The GraphConfigurator configures all graph settings (neo4j password, labels for DF relationships etc.) based on the chosen graph name. The GraphConfigurator will use the settings from graph_confs.py. If you create a new graph (and thus require a new name), you need to configure the settings belonging to that new graph name in graph_confs.py.
+Then the main steps of the implementation follow (all can be set to True or False):
+1. Data preprocessing. If this step is set to true, a preprocessor will be selected from the preprocessors-directory by the preprocessSelector.py. It will use a dataset from the raw_data-directory as input. Which preprocessor is selected and which dataset is used is also configured in graph_confs.py. Currently there are only preprocessors and raw data for BPIC14 and BPIC17. It will save the preprocessed data to the neo4j import directory.
+  •	Make sure to specify the correct path to the neo4j import folder.
+  •	Note: the preprocessSelector selects a preprocessor based on the name of the graph, if you add a new graph name (even though you will use the same raw data and preprocessor), you need to also add this to the set of graph names in preprocessSelector.py for your corresponding preprocessor.
+2. Event graph construction. Invokes an EventGraphConstructor from the constructors-directory. Constructs the event graph from the data in the neo4j import folder.
+  •	Make sure to allocate enough memory: set dbms.memory.heap.max_size=20G .
+  •	Make sure to specify the correct path to the neo4j import folder.
+3. High level event construction. Invokes a HighLevelEventConstructor from the constructors-directory. Constructs the high level events.
+4. Explore cases. Invokes a GraphExplorer. This can be used to explore the graph for specific cases using the command line. Requires a list of case ids as input. The subgraph is then visualized by invoking an instance of SubgraphExplorer.py.
+5. Explore patterns. Invokes a GraphExplorer. This can be used to explore the graph for specific pattern instances using the command line. Requires a pattern type and instance number as input. The subgraph is then visualized by invoking an instance of SubgraphExplorer.py.
+6. Measure patterns. Invokes a PatternMeasurer. Measures various statistics of all the selected pattern types and other settings (time or resource constraints). These settings can be configured in graph_conf.py.

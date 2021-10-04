@@ -2,12 +2,12 @@ from preprocessors import GeneralPreprocessor
 import pandas as pd
 
 
-class BPIC2017Preprocessor(GeneralPreprocessor.Preprocessor):
+class BPIC2017Preprocessor(GeneralPreprocessor.GeneralPreprocessor):
 
     def __init__(self, name_data_set, filename, column_names, separator, timestamp_format,
-                 path_to_neo4j_import_directory, implementation, use_sample):
+                 path_to_neo4j_import_directory, implementation, use_sample, sample_cases):
         super().__init__(name_data_set, filename, column_names, separator, timestamp_format,
-                         path_to_neo4j_import_directory, implementation, use_sample)
+                         path_to_neo4j_import_directory, implementation, use_sample, sample_cases)
 
     def preprocess(self):
         self.csv_data_set = pd.read_csv(f'raw_data/{self.filename}.csv', keep_default_na=True,
@@ -15,34 +15,8 @@ class BPIC2017Preprocessor(GeneralPreprocessor.Preprocessor):
         self.csv_data_set.drop_duplicates(keep='first', inplace=True)
         self.csv_data_set.reset_index(drop=True, inplace=True)
 
-        # if self.use_sample:
-        #     sample_cases = ['Application_2045572635',
-        #                     'Application_2014483796',
-        #                     'Application_1973871032',
-        #                     'Application_1389621581',
-        #                     'Application_1564472847',
-        #                     'Application_430577010',
-        #                     'Application_889180637',
-        #                     'Application_1065734594',
-        #                     'Application_681547497',
-        #                     'Application_1020381296',
-        #                     'Application_180427873',
-        #                     'Application_2103964126',
-        #                     'Application_55972649',
-        #                     'Application_1076724533',
-        #                     'Application_1639247005',
-        #                     'Application_1465025013',
-        #                     'Application_1244956957',
-        #                     'Application_1974117177',
-        #                     'Application_797323371',
-        #                     'Application_1631297810']
         if self.use_sample:
-            sample_cases = ['Application_1111458873',
-                            'Application_1372864243',
-                            'Application_206394826',
-                            'Application_1877008365',
-                            'Application_1992048266']
-            self.csv_data_set = self.csv_data_set[self.csv_data_set['case'].isin(sample_cases)]
+            self.csv_data_set = self.csv_data_set[self.csv_data_set['case'].isin(self.sample_cases)]
 
         if self.implementation[0] == "single":
             self.csv_data_set.rename(columns={self.column_names[0]: "case", self.column_names[1]: "activity",

@@ -1,10 +1,10 @@
 import pandas as pd
 
 
-class Preprocessor:
+class GeneralPreprocessor:
 
     def __init__(self, name_data_set, filename, column_names, separator, timestamp_format,
-                 path_to_neo4j_import_directory, implementation, use_sample):
+                 path_to_neo4j_import_directory, implementation, use_sample=False, sample_cases=[]):
         self.name_data_set = name_data_set
         self.filename = filename
         self.column_names = column_names
@@ -14,8 +14,9 @@ class Preprocessor:
         self.csv_data_set = None
         self.implementation = implementation
         self.use_sample = use_sample
+        self.sample_cases = sample_cases
 
-    def preprocess(self, sample_cases):
+    def preprocess(self):
 
         self.csv_data_set = pd.read_csv(f'raw_data/{self.filename}.csv', keep_default_na=True,
                                         usecols=self.column_names, sep=self.separator)
@@ -33,7 +34,7 @@ class Preprocessor:
             print("Undesired amount of columns.")
 
         if self.use_sample:
-            self.csv_data_set = self.csv_data_set[self.csv_data_set['case'].isin(sample_cases)]
+            self.csv_data_set = self.csv_data_set[self.csv_data_set['case'].isin(self.sample_cases)]
 
         self.csv_data_set['timestamp'] = pd.to_datetime(self.csv_data_set['timestamp'], format=self.timestamp_format)
         self.csv_data_set['timestamp'] = self.csv_data_set['timestamp'].map(lambda x: x.strftime('%Y-%m-%dT%H:%M:%S.%f')[0:-3] + '+0100')
@@ -44,4 +45,3 @@ class Preprocessor:
 
         self.csv_data_set.to_csv(f'{self.path_to_neo4j_import_directory}{self.name_data_set}.csv', index=True,
                                  index_label="idx")
-        # return self.csv_data_set

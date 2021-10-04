@@ -56,7 +56,7 @@ use_abbreviated_event_names = True  # print abbreviated activity names in subgra
 if step_preprocess:
     PreprocessSelector.get_preprocessor(graph, gc.get_filename(), gc.get_column_names(), gc.get_separator(),
                                         gc.get_timestamp_format(), path_to_neo4j_import_directory,
-                                        gc.get_implementation(), gc.get_use_sample()).preprocess()
+                                        gc.get_implementation()).preprocess()
 
 if step_create_event_graph and gc.get_implementation()[0] == "single":
     EventGraphConstructor(gc.get_password(), path_to_neo4j_import_directory, graph) \

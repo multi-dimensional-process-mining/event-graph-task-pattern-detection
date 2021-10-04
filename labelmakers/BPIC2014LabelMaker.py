@@ -1,7 +1,7 @@
 from labelmakers import GeneralLabelMaker
 
 
-class BPIC2014LabelMaker(GeneralLabelMaker.LabelMaker):
+class BPIC2014LabelMaker(GeneralLabelMaker.GeneralLabelMaker):
 
     def __init__(self, use_label_dict, activity_label, print_duration, activity_label_sep):
         super().__init__(activity_label, print_duration, activity_label_sep)

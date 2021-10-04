@@ -4,17 +4,18 @@
 
 # SETTING FOR PREPROCESSING
 # if no preprocessing is done, empty strings can be assigned
-filename = {}           # name of the csv file to build the graph from
-column_names = {}       # names of the columns in the csv file for [case, activity, timestamp, resource(, lifecycle)] (in this order)
-separator = {}          # separator used in csv file
-timestamp_format = {}   # format of the timestamps recorded in the csv file
-use_sample = {}         # specify to only use a sample when preprocessing (if True, sample needs to be specified in corresponding PreProcessor.py)
+filename = {}  # name of the csv file to build the graph from
+column_names = {}  # names of the columns in the csv file for [case, activity, timestamp, resource(, lifecycle)] (in this order)
+separator = {}  # separator used in csv file
+timestamp_format = {}  # format of the timestamps recorded in the csv file
+use_sample = {}  # specify to only use a sample when preprocessing (if True, sample needs to be specified in corresponding PreProcessor.py)
+sample_cases = {}
 
 # GRAPH SETTINGS
-password = {}                   # password of neo4j database
-entity_labels = {}              # labels used in the graph for: [[df_resource, node_resource], [df_case, node_case]]
-action_lifecycle_labels = {}    # labels used in the graph for: [activity, lifecycle]
-timestamp_label = {}            # label used for timestamp
+password = {}  # password of neo4j database
+entity_labels = {}  # labels used in the graph for: [[df_resource, node_resource], [df_case, node_case]]
+action_lifecycle_labels = {}  # labels used in the graph for: [activity, lifecycle]
+timestamp_label = {}  # label used for timestamp
 
 # IMPLEMENTATION SETTINGS:
 # set which implementation to use for constructing the event graph and the high level events
@@ -24,14 +25,12 @@ timestamp_label = {}            # label used for timestamp
 implementation = {}
 
 # SETTINGS FOR VISUALIZING:
-name_data_set = {}          # name of the data set, used for configuring the node labels when visualizing subgraphs (only available for bpic2014 and bpic2017)
-cases_to_visualize = {}     # set which cases to visualize (only used for paper, can also be input manually in visualizing step)
+name_data_set = {}  # name of the data set, used for configuring the node labels when visualizing subgraphs (only available for bpic2014 and bpic2017)
 
 # SETTINGS FOR MEASURING:
-pm_selection = {}           # configure the list of measurements, for each measurement or row: the pattern (p),
-                            # time constraint (t) and resource inclusion (r) is specified as [p, t, r]
-total_events = {}           # total number of events in the dataset (or in the sample)
-
+pm_selection = {}  # configure the list of measurements, for each measurement or row: the pattern (p),
+# time constraint (t) and resource inclusion (r) is specified as [p, t, r]
+total_events = {}  # total number of events in the dataset (or in the sample)
 
 #####################################################
 ############ CONFIGURATION OF SETTINGS ##############
@@ -88,8 +87,6 @@ for graph in ["bpic2017_single_df",
         implementation[graph] = ["single"]
 
     if implementation[graph][0] == "single":
-        # pm_selection[graph] = [[1, 0, 1], [4, 0, 1], [2, 0, 1], [3, 0, 1], [2, 1, 1], [3, 1, 1], [7, 1, 1], [8, 1, 1],
-        #                          [1, 0, 2], [4, 0, 2], [2, 1, 2], [3, 1, 2], [8, 1, 2]]
         pm_selection[graph] = [[1, 0, 1], [4, 0, 1], [2, 0, 1], [3, 0, 1], [2, 1, 1], [3, 1, 1],
                                [5, 0, 1], [8, 0, 1], [6, 0, 1], [7, 0, 1], [6, 1, 1], [7, 1, 1],
                                [9, 0, 1], [12, 0, 1], [10, 0, 1], [11, 0, 1], [10, 1, 1], [11, 1, 1],
@@ -107,8 +104,32 @@ for graph in ["bpic2017_single_df",
                                [13, 0, 0], [16, 0, 0], [14, 0, 0], [15, 0, 0], [14, 1, 0], [15, 1, 0],
                                ["7p", 1, 0], ["8p", 1, 0]]
 
-    cases_to_visualize[graph] = ["Application_1111458873,Application_1372864243,Application_206394826,"
-                                 "Application_1877008365,Application_1992048266", "example_5_cases_pattern_16"]
+    use_sample[graph] = False
+    sample_cases[graph] = ['Application_1111458873',
+                           'Application_1372864243',
+                           'Application_206394826',
+                           'Application_1877008365',
+                           'Application_1992048266']
+    # sample_cases[graph] = ['Application_2045572635',
+    #                        'Application_2014483796',
+    #                        'Application_1973871032',
+    #                        'Application_1389621581',
+    #                        'Application_1564472847',
+    #                        'Application_430577010',
+    #                        'Application_889180637',
+    #                        'Application_1065734594',
+    #                        'Application_681547497',
+    #                        'Application_1020381296',
+    #                        'Application_180427873',
+    #                        'Application_2103964126',
+    #                        'Application_55972649',
+    #                        'Application_1076724533',
+    #                        'Application_1639247005',
+    #                        'Application_1465025013',
+    #                        'Application_1244956957',
+    #                        'Application_1974117177',
+    #                        'Application_797323371',
+    #                        'Application_1631297810']
 
 # -------------- BPIC 2014 SETTINGS -----------------
 
@@ -147,4 +168,5 @@ for graph in ["bpic2014_single_df",
                            [13, 0, 0], [16, 0, 0], [14, 0, 0], [15, 0, 0], [14, 1, 0], [15, 1, 0],
                            ["7p", 1, 0], ["8p", 1, 0]]
 
-    cases_to_visualize[graph] = ["IM0000004,IM0000019,IM0000011", "three_random_cases"]
+    use_sample[graph] = False
+    sample_cases[graph] = []

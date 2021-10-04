@@ -11,17 +11,14 @@ class GraphConfigurator:
         self.separator = graph_confs.separator[self.graph_name]
         self.timestamp_format = graph_confs.timestamp_format[self.graph_name]
         self.use_sample = graph_confs.use_sample[self.graph_name]
+        self.sample_cases = graph_confs.sample_cases[self.graph_name]
 
         self.password = graph_confs.password[self.graph_name]
         self.entity_labels = graph_confs.entity_labels[self.graph_name]
         self.action_lifecycle_labels = graph_confs.action_lifecycle_labels[self.graph_name]
 
-        self.implementation = graph_confs.implementation[self.graph_name]
-
         self.pm_selection = graph_confs.pm_selection[self.graph_name]
         self.total_events = graph_confs.total_events[self.graph_name]
-
-        self.cases_to_visualize = graph_confs.cases_to_visualize[self.graph_name]
 
     def get_filename(self):
         return self.filename
@@ -44,6 +41,9 @@ class GraphConfigurator:
     def get_use_sample(self):
         return self.use_sample
 
+    def get_sample_cases(self):
+        return self.sample_cases
+
     def get_password(self):
         return self.password
 
@@ -53,14 +53,8 @@ class GraphConfigurator:
     def get_action_lifecycle_labels(self):
         return self.action_lifecycle_labels
 
-    def get_implementation(self):
-        return self.implementation
-
     def get_pm_selection(self):
         return self.pm_selection
 
     def get_total_events(self):
         return self.total_events
-
-    def get_cases_to_visualize(self):
-        return self.cases_to_visualize

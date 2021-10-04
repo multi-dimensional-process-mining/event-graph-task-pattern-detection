@@ -9,7 +9,7 @@ class PerformanceRecorder:
         self.start = time.time()
         self.last = time.time()
         self.path_to_performance_file = f'performance/{description}_{data_set}.csv'
-        print(f"START {description}...")
+        # print(f"START {description}...")
 
     def start_recording(self):
         self.last = time.time()
@@ -20,7 +20,7 @@ class PerformanceRecorder:
                                                                 'start': self.last, 'end': current_time,
                                                                 'duration': (current_time - self.last)},
                                                                ignore_index=True)
-        print(action + ' done -  took ' + str(current_time - self.last) + ' seconds')
+        # print(action + ' done -  took ' + str(current_time - self.last) + ' seconds')
         self.last = current_time
 
     def record_total_performance(self):
@@ -29,7 +29,7 @@ class PerformanceRecorder:
                                                                 'start': self.start, 'end': current_time,
                                                                 'duration': (current_time - self.start)},
                                                                ignore_index=True)
-        print('total' + ' done -  took ' + str(current_time - self.start) + ' seconds\n')
+        # print('total' + ' done -  took ' + str(current_time - self.start) + ' seconds\n')
         self.last = current_time
 
     def save_to_file(self):

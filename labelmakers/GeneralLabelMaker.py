@@ -1,4 +1,4 @@
-class LabelMaker:
+class GeneralLabelMaker:
 
     def __init__(self, activity_label, print_duration, activity_label_sep):
         self.print_duration = print_duration
@@ -38,3 +38,11 @@ class LabelMaker:
             return str_duration
         else:
             return ""
+
+    def get_case_label(self, case_id):
+        case_label = str(case_id)
+        return case_label
+
+    def get_resource_label(self, resource_id):
+        resource_label = str(resource_id)
+        return resource_label

@@ -2,6 +2,7 @@ from neo4j import GraphDatabase
 from SubgraphVisualizer import SubgraphVisualizer
 import pandas as pd
 from tabulate import tabulate
+from PerformanceRecorder import PerformanceRecorder
 
 
 class GraphExplorer:
@@ -27,9 +28,11 @@ class GraphExplorer:
 
     def explore_patterns(self):
         explore = "y"
+        pr = PerformanceRecorder(self.graph, "pattern_exploration")
         while explore == "y":
             with self.driver.session() as session:
                 execution_pattern = input("Specify which execution pattern to explore (1, 2, 3, 4, 7p or 8p): ")
+                pr.start_recording()
                 while execution_pattern not in ["1", "2", "3", "4", "7p", "8p"]:
                     execution_pattern = input("Not a valid execution pattern, please specify 1, 2, 3, 4, 7p or 8p: ")
                 action_seq_description = ""
@@ -46,7 +49,9 @@ class GraphExplorer:
                     df_batch_action_sequences = session.read_transaction(get_batch_action_sequences,
                                                                          self.entity_labels[0][0], execution_pattern)
                     print(tabulate(df_batch_action_sequences.head(20), headers='keys', tablefmt='fancy_grid'))
+                    pr.record_performance("get_action_sequences")
                     action_seq_index = int(input("\nSelect specific batch action sequence (by index): "))
+                    pr.start_recording()
                     action_sequence = df_batch_action_sequences.loc[action_seq_index]['action_seq']
                     action_seq_description = f"actseq{action_seq_index}_"
                     print(f"Chosen action sequence: {action_sequence}")
@@ -54,7 +59,9 @@ class GraphExplorer:
                                                                      self.entity_labels[0][0], action_sequence)
                 print(tabulate(df_execution_patterns.head(20), headers='keys', tablefmt='fancy_grid'))
 
+                pr.record_performance(f"get_executions_{execution_pattern}")
                 execution_index = int(input("\nSelect specific execution (by index): "))
+                pr.start_recording()
                 execution_path = df_execution_patterns.loc[execution_index]['path']
                 print(f"Chosen execution path: {execution_path}")
 
@@ -73,15 +80,19 @@ class GraphExplorer:
 
                 print(tabulate(df_execution_instances[['resource', 'duration', 'case']].head(20), headers='keys',
                                tablefmt='fancy_grid'))
+                pr.record_performance(f"get_instances_{execution_index}")
 
                 ti_index = int(input("\nSelect instance to visualize (by index): "))
+                pr.start_recording()
                 ti_id_path = df_execution_instances.loc[ti_index]['id_path']
                 print(f"Visualizing subgraph of task instance at index {ti_index}...")
                 description = f"{action_seq_description}ex{execution_index}_inst{ti_index}"
                 self.svg.visualize_graph_from_task_instance(execution_pattern, ti_id_path, description,
                                                             self.print_duration, self.use_abbreviated_event_names)
+                pr.record_performance(f"visualize_instance_{ti_index}")
 
                 explore = input("Explore more pattern executions (y/n)? ")
+                pr.start_recording()
 
 
 def get_elementary_execution_patterns(tx, execution_pattern):

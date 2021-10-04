@@ -1,14 +1,11 @@
 from labelmakers import GeneralLabelMaker
 
 
-class BPIC2014LabelMaker(GeneralLabelMaker.LabelMaker):
+class BPIC2014LabelMaker(GeneralLabelMaker.GeneralLabelMaker):
 
-    def __init__(self, use_label_dict, activity_label, print_duration, activity_label_sep):
+    def __init__(self, activity_label, print_duration, activity_label_sep):
         super().__init__(activity_label, print_duration, activity_label_sep)
         self.activity_label_sep = " "
-        self.use_label_dict = use_label_dict
-        if use_label_dict:
-            self.node_label_font_size = "30"
         self.c_id_start = 4
         self.r_id_start = 4
 

@@ -1,0 +1,105 @@
+// Query Result
+digraph {
+	graph [margin=0 nodesep=0.5 rankdir=LR ranksep=0.5]
+	node [color="#000000" fillcolor="#ffffff" fixedsize=true fontcolor="#000000" fontname=Helvetica fontsize=13 height=0.6 margin=0 shape=square style=filled width=0.6]
+	edge [color="#d73027" fontcolor="#d73027" fontname=Helvetica fontsize=8 penwidth=2]
+	r15 [label=15 color="#d73027" fillcolor="#d73027" fixedsize=false fontcolor="#ffffff" fontsize=24 height=0.4 shape=rectangle style=filled]
+	r15 -> 1077342 [arrowhead=none color="#d73027" style=dashed]
+	1077342 [label=""]
+	1077342 -> 108487
+	108487 [label="W
+Handle
+STAR"]
+	108487 -> 1164871 [fontcolor="#570000" fontsize=10 xlabel=""]
+	1164871 [label="W
+Handle
+STAR"]
+	1164871 -> 1164872 [fontcolor="#570000" fontsize=10 xlabel=""]
+	1164872 [label="W
+Handle
+COMP"]
+	1164872 -> 1164873 [fontcolor="#570000" fontsize=10 xlabel=""]
+	1164873 [label="W
+Comple
+SCHE"]
+	1164873 -> 1164874 [fontcolor="#570000" fontsize=10 xlabel=""]
+	1164874 [label="W
+Comple
+STAR"]
+	1164874 -> 1164875 [fontcolor="#570000" fontsize=10 xlabel=""]
+	1164875 [label="A
+Concep
+COMP"]
+	1164875 -> 108490 [fontcolor="#570000" fontsize=10 xlabel=""]
+	108490 [label="W
+Handle
+COMP"]
+	108490 -> 108491 [fontcolor="#570000" fontsize=10 xlabel=""]
+	108491 [label="W
+Comple
+SCHE"]
+	108491 -> 108492 [fontcolor="#570000" fontsize=10 xlabel=""]
+	108492 [label="W
+Comple
+STAR"]
+	108492 -> 108493 [fontcolor="#570000" fontsize=10 xlabel=""]
+	108493 [label="A
+Concep
+COMP"]
+	108493 -> 303831
+	303831 [label=""]
+	node [color="#000000" fillcolor="#ffffff" fixedsize=true fontcolor="#000000" fontname=Helvetica fontsize=13 height=0.6 margin=0 shape=square style=filled width=0.6]
+	edge [color="#4575b4" fontcolor="#4575b4" fontname=Helvetica fontsize=8 penwidth=2]
+	c93983838 [label=93983838 color="#4575b4" fillcolor="#4575b4" fixedsize=false fontcolor="#ffffff" fontsize=24 height=0.4 shape=rectangle style=filled]
+	c93983838 -> 1164870 [arrowhead=none color="#4575b4" style=dashed]
+	1164870 [label=""]
+	1164870 -> 1164871
+	1164871 [label="W
+Handle
+STAR"]
+	1164871 -> 1164872 [fontcolor="#002759" fontsize=10 xlabel=""]
+	1164872 [label="W
+Handle
+COMP"]
+	1164872 -> 1164873 [fontcolor="#002759" fontsize=10 xlabel=""]
+	1164873 [label="W
+Comple
+SCHE"]
+	1164873 -> 1164874 [fontcolor="#002759" fontsize=10 xlabel=""]
+	1164874 [label="W
+Comple
+STAR"]
+	1164874 -> 1164875 [fontcolor="#002759" fontsize=10 xlabel=""]
+	1164875 [label="A
+Concep
+COMP"]
+	1164875 -> 1164879
+	1164879 [label=""]
+	node [color="#000000" fillcolor="#ffffff" fixedsize=true fontcolor="#000000" fontname=Helvetica fontsize=13 height=0.6 margin=0 shape=square style=filled width=0.6]
+	edge [color="#4575b4" fontcolor="#4575b4" fontname=Helvetica fontsize=8 penwidth=2]
+	c1173884382 [label=1173884382 color="#4575b4" fillcolor="#4575b4" fixedsize=false fontcolor="#ffffff" fontsize=24 height=0.4 shape=rectangle style=filled]
+	c1173884382 -> 108486 [arrowhead=none color="#4575b4" style=dashed]
+	108486 [label=""]
+	108486 -> 108487
+	108487 [label="W
+Handle
+STAR"]
+	108487 -> 108490 [fontcolor="#002759" fontsize=10 xlabel=""]
+	108490 [label="W
+Handle
+COMP"]
+	108490 -> 108491 [fontcolor="#002759" fontsize=10 xlabel=""]
+	108491 [label="W
+Comple
+SCHE"]
+	108491 -> 108492 [fontcolor="#002759" fontsize=10 xlabel=""]
+	108492 [label="W
+Comple
+STAR"]
+	108492 -> 108493 [fontcolor="#002759" fontsize=10 xlabel=""]
+	108493 [label="A
+Concep
+COMP"]
+	108493 -> 108497
+	108497 [label=""]
+}

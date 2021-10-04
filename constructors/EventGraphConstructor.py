@@ -34,8 +34,8 @@ class EventGraphConstructor:
         run_query(self.driver, query_create_event_nodes)
         pr.record_performance("import_event_nodes")
 
-        query_filter_events = f'MATCH (e:Event) WHERE e.lifecycle in ["SUSPEND","RESUME", "ATE_ABORT", "SCHEDULE", "WITHDRAW"] DELETE e'
-        # query_filter_events = f'MATCH (e:Event) WHERE e.lifecycle in ["SUSPEND","RESUME"] DELETE e'
+        # query_filter_events = f'MATCH (e:Event) WHERE e.lifecycle in ["SUSPEND","RESUME", "ATE_ABORT", "SCHEDULE", "WITHDRAW"] DELETE e'
+        query_filter_events = f'MATCH (e:Event) WHERE e.lifecycle in ["SUSPEND","RESUME"] DELETE e'
         run_query(self.driver, query_filter_events)
         pr.record_performance(f"filter_events_SUSPEND_RESUME")
 

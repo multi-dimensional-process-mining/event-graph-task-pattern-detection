@@ -125,7 +125,6 @@ def get_case_df_single(tx, dot, lm, ti_case_path, entity_labels, context):
     record_nr = 1
 
     for record in records:
-        print(record)
         if len(records) == 1:
             c_id = lm.get_case_label(record['e1'][entity_labels[1][1]])
             dot.node(f"c{c_id}", c_id, color=medium_blue, shape="rectangle", height='0.4', fixedsize="false",
@@ -168,7 +167,6 @@ def get_case_df_single(tx, dot, lm, ti_case_path, entity_labels, context):
             dot.edge(str(record["e1"].id), str(record["e2"].id), xlabel=lm.get_edge_label_duration(record),
                      fontcolor=dark_blue, fontsize="10")
         record_nr += 1
-    print("\n")
     return dot
 
 
@@ -198,7 +196,6 @@ def get_resource_df_single(tx, dot, lm, ti_resource_path, entity_labels, context
     record_nr = 1
 
     for record in records:
-        print(record)
         if len(records) == 1:
             r_id = lm.get_case_label(record['e1'][entity_labels[0][1]])
             dot.node(f"r{r_id}", r_id, color=medium_red, shape="rectangle", height='0.4', fixedsize="false",
@@ -240,7 +237,6 @@ def get_resource_df_single(tx, dot, lm, ti_resource_path, entity_labels, context
             dot.edge(str(record["e1"].id), str(record["e2"].id), xlabel=lm.get_edge_label_duration(record),
                      fontcolor=dark_red, fontsize="10")
         record_nr += 1
-    print("\n")
     return dot
 
 
@@ -263,7 +259,6 @@ def get_resource_df_multi(tx, dot, lm, ti_resource_path, case_ids, entity_labels
     last_node_id = ""
 
     for record in records:
-        print(record)
         if record['e1']['case'] != record['e2']['case'] and record['e2']['case'] not in case_ids:
             last_of_subsequence = True
         else:
@@ -289,7 +284,6 @@ def get_resource_df_multi(tx, dot, lm, ti_resource_path, case_ids, entity_labels
                 dot.edge(str(record["e1"].id), str(record["e2"].id))
             else:
                 first_of_subsequence = True
-    print("\n")
     return dot
 
 

@@ -7,8 +7,8 @@ The code is organized as follows:
   o	BPIC2017LabelMaker.py
   o	GeneralLabelMaker.py
 • output:
-  o	measurements: here the pattern measurements (from PaternMeasurer.py) are stored in csv format.
-  o	subgraphs: here all sugraphs (from SubgraphVisualizer.py) are saved into two different sub-folders.
+  o	measurements: here the pattern measurements (from PatternMeasurer.py) are stored in csv format.
+  o	subgraphs: here all subgraphs (from SubgraphVisualizer.py) are saved into two different sub-folders.
      from_cases: subgraphs created from input in the form of a list of case_ids.
      task_instances: subgraphs created based on selected pattern type + instance number.
 • performance: here the recorded performance (by PerformanceRecorder.py) is stored in csv-format.

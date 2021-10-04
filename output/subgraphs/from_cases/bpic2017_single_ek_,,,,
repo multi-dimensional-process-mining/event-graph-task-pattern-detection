@@ -1,0 +1,14 @@
+// Query Result
+digraph {
+	graph [margin=0 nodesep=0.5 rankdir=LR ranksep=0.5]
+	node [color="#000000" fillcolor="#ffffff" fixedsize=true fontcolor="#000000" fontname=Helvetica fontsize=13 height=0.6 margin=0 shape=square style=filled width=0.6]
+	edge [color="#4575b4" fontcolor="#4575b4" fontname=Helvetica fontsize=8 penwidth=2]
+	node [color="#000000" fillcolor="#ffffff" fixedsize=true fontcolor="#000000" fontname=Helvetica fontsize=13 height=0.6 margin=0 shape=square style=filled width=0.6]
+	edge [color="#4575b4" fontcolor="#4575b4" fontname=Helvetica fontsize=8 penwidth=2]
+	node [color="#000000" fillcolor="#ffffff" fixedsize=true fontcolor="#000000" fontname=Helvetica fontsize=13 height=0.6 margin=0 shape=square style=filled width=0.6]
+	edge [color="#4575b4" fontcolor="#4575b4" fontname=Helvetica fontsize=8 penwidth=2]
+	node [color="#000000" fillcolor="#ffffff" fixedsize=true fontcolor="#000000" fontname=Helvetica fontsize=13 height=0.6 margin=0 shape=square style=filled width=0.6]
+	edge [color="#4575b4" fontcolor="#4575b4" fontname=Helvetica fontsize=8 penwidth=2]
+	node [color="#000000" fillcolor="#ffffff" fixedsize=true fontcolor="#000000" fontname=Helvetica fontsize=13 height=0.6 margin=0 shape=square style=filled width=0.6]
+	edge [color="#4575b4" fontcolor="#4575b4" fontname=Helvetica fontsize=8 penwidth=2]
+}

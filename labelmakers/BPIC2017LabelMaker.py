@@ -2,7 +2,7 @@ from labelmakers import GeneralLabelMaker
 from vis_reference.bpic2017_dictionaries import abbr_dictionary
 
 
-class BPIC2017LabelMaker(GeneralLabelMaker.LabelMaker):
+class BPIC2017LabelMaker(GeneralLabelMaker.GeneralLabelMaker):
 
     def __init__(self, use_label_dict, activity_label, print_duration, activity_label_sep):
         super().__init__(activity_label, print_duration, activity_label_sep)

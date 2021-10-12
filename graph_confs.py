@@ -32,9 +32,13 @@ total_events = {}           # total number of events in the dataset (or in the s
 
 # -------------- BPIC 2017 SETTINGS -----------------
 
-for graph in ["bpic2017_single_ek"]:
+for graph in ["bpic2017_single_ek",
+              "bpic2017_single_ek_filtered"]:
 
-    filename[graph] = "bpic2017"
+    if graph == "bpic2017_single_ek_filtered":
+        filename[graph] = "bpic2017_filtered"
+    else:
+        filename[graph] = "bpic2017"
     name_data_set[graph] = "bpic2017"
     column_names[graph] = ["case", "event", "time", "org:resource", "lifecycle:transition"]
     separator[graph] = ","

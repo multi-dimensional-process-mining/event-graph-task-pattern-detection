@@ -2,19 +2,25 @@ from neo4j import GraphDatabase
 import pandas as pd
 import re
 from graphviz import Digraph
-from bpic2017_dictionaries import color_dict_application, color_dict_offer, color_dict_workflow
+from vis_reference.bpic2017_dictionaries import color_dict_application, color_dict_offer, color_dict_workflow
 import pydot
 
-# DATASET & FILTER SETTINGS
-data_set = "bpic2017"
-string_start = 5
 
-# connection to Neo4J database
-driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", data_set))
+class Granulator:
 
-granularity_output_directory = f"task-granularities\\{data_set}"
-# granularity = "atomic"
-granularity = "composite"
+    def __init__(self, graph, password, name_data_set):
+        self.driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", password))
+        self.graph = graph
+        self.output_directory = f"output\\atomic-composite\\{graph}"
+
+    def derive_atomic_composite(self):
+        granularity = "composite"
+        with self.driver.session() as session:
+            task_paths = session.read_transaction(get_all_task_paths)
+            task_paths = get_task_granularities(task_paths)
+            # analyze_granularity(task_paths)
+            # get_atomic_composite_tasks_per_length(task_paths, self.output_directory, granularity)
+            get_all_atomic_composite_separately(task_paths, self.output_directory)
 
 
 def get_all_task_paths(tx):
@@ -62,18 +68,55 @@ def get_task_granularities(df_task_paths):
     return df_task_paths
 
 
+def get_all_atomic_composite_separately(df_task_paths, output_directory):
+    for granularity in ["atomic", "composite"]:
+        if granularity == "atomic":
+            df_tasks = df_task_paths[((df_task_paths['granularity'] == 'atomic') | (df_task_paths['granularity'] == 'atomic_variant'))]
+
+        else:
+            df_tasks = df_task_paths[(df_task_paths['granularity'] == 'composite')]
+        df_tasks.reset_index(level=0, inplace=True)
+
+        for index, row in df_tasks.iterrows():
+
+            dot = Digraph(comment='Query Result')
+            dot.attr("graph", rankdir="LR", margin="0", nodesep="0.25", ranksep="0.05")
+            dot.attr("node", fixedsize="true", fontname="Helvetica", fontsize="11", margin="0")
+
+            path = df_tasks.loc[index, 'path']
+            rank = df_tasks.loc[index, 'rank']
+
+            node_id = 1
+
+            dot.node(str(rank), f'{rank}\l', shape="rect", width="0.3", color="white", penwidth=str(0.5))
+            dot.edge(str(rank), f'{rank}_{node_id}', style="invis")
+
+            for event in path[:-1]:
+                dot.node(f'{rank}_{node_id}', "", style="filled", shape=get_node_properties(event)[0],
+                       width=get_node_properties(event)[1], height=get_node_properties(event)[2],
+                       fillcolor=get_node_properties(event)[3], fontcolor="black", penwidth=str(0.5))
+                dot.edge(f'{rank}_{node_id}', f'{rank}_{node_id + 1}', style="invis")
+                node_id += 1
+            dot.node(f'{rank}_{node_id}', "", style="filled", shape=get_node_properties(path[-1])[0],
+                   width=get_node_properties(path[-1])[1], height=get_node_properties(path[-1])[2],
+                   fillcolor=get_node_properties(path[-1])[3], fontcolor="black", penwidth=str(0.5))
+
+            (graph,) = pydot.graph_from_dot_data(dot.source)
+            graph.write_png(f"{output_directory}\\{granularity}_{rank}.png")
+
+
 def analyze_granularity(df_task_paths):
     for length in range(df_task_paths['length'].max()):
         print(f"Length {length}: {len(df_task_paths[(df_task_paths['length'] == length) & ((df_task_paths['granularity'] == 'atomic') | (df_task_paths['granularity'] == 'atomic_variant'))])}")
 
 
-def get_atomic_composite_tasks_per_length(df_task_paths):
+def get_atomic_composite_tasks_per_length(df_task_paths, output_directory, granularity):
     if granularity == "atomic":
         graph_rows = 10
-        df_tasks = df_task_paths[((df_task_paths['granularity'] == 'atomic') | (df_task_paths['granularity'] == 'atomic_variant')) & (df_task_paths.index < 156)]
+        df_tasks = df_task_paths[((df_task_paths['granularity'] == 'atomic') | (df_task_paths['granularity'] == 'atomic_variant'))]
     else:
         graph_rows = 11
-        df_tasks = df_task_paths[(df_task_paths['granularity'] == 'composite') & (df_task_paths.index < 156)]
+        df_tasks = df_task_paths[(df_task_paths['granularity'] == 'composite')]
     df_tasks.reset_index(level=0, inplace=True)
     lengths = df_tasks['length'].unique()
     for length in lengths:
@@ -104,7 +147,7 @@ def get_atomic_composite_tasks_per_length(df_task_paths):
                     last_node_id = get_graph_cell(s, df_tasks_per_length, graph_rows, g_col, g_row, last_node_id)
 
         (graph,) = pydot.graph_from_dot_data(dot.source)
-        graph.write_png(f"{granularity_output_directory}\\{granularity}_tasks_length{length}.png")
+        graph.write_png(f"{output_directory}\\{granularity}_tasks_length{length}.png")
 
 
 def get_graph_cell(s, df_atomic_tasks_per_length, graph_rows, g_col, g_row, last_node_id):
@@ -143,10 +186,3 @@ def get_node_properties(event):
     elif event[0] == "O":
         node_properties = ["circle", "0.3", "0.3", color_dict_offer.get(event)]
     return node_properties
-
-
-with driver.session() as session:
-    task_paths = session.read_transaction(get_all_task_paths)
-    task_paths = get_task_granularities(task_paths)
-    # analyze_granularity(task_paths)
-    get_atomic_composite_tasks_per_length(task_paths)

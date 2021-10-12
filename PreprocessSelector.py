@@ -5,7 +5,7 @@ from preprocessors.GeneralPreprocessor import GeneralPreprocessor
 
 def get_preprocessor(dataset, filename, column_names, separator, timestamp_format, path_to_neo4j_import_directory,
                      use_sample=False, sample_cases=[]):
-    if dataset in ["bpic2017_single_ek"]:
+    if dataset in ["bpic2017_single_ek", "bpic2017_single_ek_filtered"]:
         return BPIC2017Preprocessor(name_data_set=dataset, filename=filename, column_names=column_names,
                                     separator=separator, timestamp_format=timestamp_format,
                                     path_to_neo4j_import_directory=path_to_neo4j_import_directory,
